@@ -3,6 +3,7 @@ node_js:
 - 0.1
 before_script:
 - npm install -g grunt-cli
+- npm install -g bower
 - npm install --no-bin-links
 - bower install
 env:
