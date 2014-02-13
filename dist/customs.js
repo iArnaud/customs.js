@@ -3,7 +3,28 @@
   else if (typeof define === 'function' && define.amd) { define(definition); }
   else { context[name] = definition(); }
 })('customs', this, function () {
-var checks = function () {
+var utils = function () {
+        return {
+            isEmpty: function (obj) {
+                if (Object.prototype.toString.call(obj) === '[object Array]') {
+                    return obj.length > 0;
+                }
+                for (var prop in obj) {
+                    if (obj.hasOwnProperty(prop)) {
+                        return false;
+                    }
+                }
+                return true;
+            },
+            formatStr: function (str, obj) {
+                return str.replace(/{([^{}]*)}/g, function (a, b) {
+                    var r = obj[b];
+                    return typeof r === 'string' ? r : a;
+                });
+            }
+        };
+    }();
+var checks = function (utils) {
         var regExs = {
                 numeric: /^[0-9]+$/,
                 integer: /^\-?[0-9]+$/,
@@ -23,7 +44,7 @@ var checks = function () {
         checks['required'] = {
             'msg': 'The %s field is required.',
             'check': function (val) {
-                return val !== null && val !== '';
+                return val !== null && typeof val == 'object' ? utils.isEmpty(val) : val !== null && val !== '';
             }
         };
         checks['default'] = {
@@ -189,19 +210,7 @@ var checks = function () {
             }
         };
         return checks;
-    }();
-var utils = function () {
-        return {
-            isEmpty: function (obj) {
-                for (var prop in obj) {
-                    if (obj.hasOwnProperty(prop)) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-        };
-    }();
+    }(utils);
 var customs = function (checks, utils) {
         return {
             checks: checks,
@@ -211,7 +220,7 @@ var customs = function (checks, utils) {
                         errs: {}
                     };
                 for (var key in data) {
-                    if (rules[key]) {
+                    if (rules && rules[key]) {
                         var keyErrs = this._checkKey(data[key], rules[key]);
                         if (keyErrs.length) {
                             result.errs[key] = keyErrs;

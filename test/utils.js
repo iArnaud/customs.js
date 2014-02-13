@@ -24,9 +24,19 @@ var testIsEmpty = function () {
   });
 };
 
+//
+// 
+//
+var testFormatStr = function () {
+  it('Should replace bracketed num with corresponding array index', function () {
+    assert.equal(utils.formatStr('| {0} | {1} | {2} |', ['1', '2', '3']), '| 1 | 2 | 3 |');
+  });
+};
+
 // Test please
 describe('utils', function () {
   describe('isEmpty', testIsEmpty);
+  describe('formatStr', testFormatStr);
 });
 
 

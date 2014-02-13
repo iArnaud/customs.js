@@ -11,7 +11,27 @@
 
     <body>
 
+        <div id="workboard" style="position: absolute; visibility: hidden;"></div>
+
         <div id="mocha"></div>
+
+        <script id="form-tmpl" type="text/tmpl">
+        <form id="form">
+          <input type="text" name="name">
+          <input type="radio" name="sex" value="male">
+          <input type="radio" name="sex" value="female">
+          <input type="radio" name="handedness" value="left">
+          <input type="radio" name="handedness" value="right" checked>
+          <select name="country">
+            <option>Select</option>
+            <option>Canada</option>
+            <option>United States</option>
+          </select>
+          <input type="checkbox" name="interests" value="tech">
+          <input type="checkbox" name="interests" value="sports">
+          <textarea name="bio"></textarea>
+        </form>
+        </script>
 
         <!-- tests -->
         <script src="../libs/requirejs/require.js"></script>

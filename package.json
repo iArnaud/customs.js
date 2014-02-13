@@ -1,6 +1,6 @@
 {
   "name": "customs.js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Flexible javascript validation (easy integration with Backbone).",
   "author": "Jarid Margolin <jarid@firstopinion.co>",
   "repository": {

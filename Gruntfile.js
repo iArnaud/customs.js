@@ -3,16 +3,16 @@ module.exports = function (grunt) {
 // Browsers
   var browsers = [
     {
-      browserName: "firefox",
-      platform: "WIN8"
+      browserName: 'firefox',
+      platform: 'WIN8'
     },
     {
-      browserName: "chrome",
-      platform: "WIN8"
+      browserName: 'chrome',
+      platform: 'WIN8'
     },
     {
-      browserName: "opera",
-      platform: "WIN7"
+      browserName: 'opera',
+      platform: 'WIN7'
     },
     {
       browserName: 'internet explorer',
@@ -39,7 +39,11 @@ module.exports = function (grunt) {
     'jshint': {
       all: [
         'Gruntfile.js',
-        'src/*.js'
+        'src/*.js',
+        '!src/intro.js',
+        '!src/outro.js',
+        '!src/backbone.intro.js',
+        '!src/backbone.outro.js'
       ],
       options: {
         force: true,
@@ -60,7 +64,7 @@ module.exports = function (grunt) {
       compile: {
         options: {
           name: 'customs',
-          baseUrl: "src",
+          baseUrl: 'src',
           out: 'dist/customs.js',
           optimize: 'none',
           skipModuleInsertion: true,
@@ -68,8 +72,8 @@ module.exports = function (grunt) {
             return require('amdclean').clean(contents);
           },
           wrap: {
-            startFile: ['src/tmpls/intro.js'],
-            endFile: ['src/tmpls/outro.js']
+            startFile: ['src/intro.js'],
+            endFile: ['src/outro.js']
           }
         }
       }
@@ -87,7 +91,7 @@ module.exports = function (grunt) {
     'connect': {
       server: {
         options: {
-          base: "",
+          base: '',
           port: 9999
         }
       }
@@ -97,12 +101,12 @@ module.exports = function (grunt) {
     'saucelabs-mocha': {
       all: {
         options: {
-          urls: ["http://127.0.0.1:9999/test/_runner.html"],
+          urls: ['http://127.0.0.1:9999/test/_runner.html'],
           build: process.env.TRAVIS_JOB_ID || '<%= pkg.version %>',
           tunnelTimeout: 5,
           concurrency: 3,
           browsers: browsers,
-          testname: "customs"
+          testname: 'customs'
         }
       }
     },

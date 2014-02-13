@@ -4,81 +4,68 @@ Flexible agnostic javascript validation with built in bindings (standalone, jque
 
 * Seperation of concerns. Core lib has no dependencies on the DOM.
 * Flexibility to create your own bindings.
-* Built in bindings using vanilla js, jquery, and backbone.
-* Built in bindings are event based. Very easy integration with UI.
+* Binding for backbone.
+
+### Why?
+
+I often find client side validation to be a messy process involving monkey patching, overwriting, and/or forking. Many existing libraries have heavy DOM dependencies. Forms and individual elements are validated. The idea behind customs.js is to create a very lighweight and flexible solution that validates json objects. Use or create your own bindings based on your requirements.. 
 
 ---
 
 
-Why?
-----
-Client validation is messy. I often find myself monkey-patching/overwriting library methods, or creating entirely seperate forks to satisfy my needs. I have found that many existing libraries have heavy DOM dependencies. Forms and individual methods are validated. The idea behind customs.js is to create a very lighweight and flexible solution to fit anyones needs. Use a built in binding or create your own. 
+## INSTALLATION
 
----
-
-
-Installation
-------------
 ```
-bower install endpoints.js
+bower install customs.js
 ```
 
 ```
-npm install endpoints.js
+npm install customs.js
 ```
 
 ---
 
 
-Core
-----
-
-### Example Usage
+## EXAMPLE
 
 ```
-// Setup rules
 var rules = {
   first: 'required|alpha|minLength[2]'
 }
 
-// Check
 var result = customs.check({
   first: ''
 }, rules);
-
-// View results
-console.log(result.isValid);
-// {
-//   isValid: false,
-//   errs: {
-//     first: [
-//       { rule: 'required', msg: 'The value is required.' },
-//       { rule: 'minLength', msg: 'The value must be greater than the specified value.' }
-//     ]
-//   }
-// }
-
 ```
 
-### API
+---
+
+
+## API
 
 #### customs.check(data, rules)
 Check data against specified rules.
 
-**params**
+```
+ARGUMENTS:
 
-* **data (required):** The data object run checks on.
-* **rules (required):** The rules object to check data against. Checks are defined in a pipe seperated string. Ex: `required|minLength[3]`
+data (required): The data object run checks on.
+rules (required): The rules object to check data against. Checks are defined in a pipe seperated string. Ex: "required|minLength[3]"
 
-**returns** (Object)
 
-* 'isValid': Boolean indicating if the data object passed the checked.
-* 'errs': (Object)
-    * [NAME]: (Array of Objects)
-        * rule: The specific rule that did not pass.
-        * msg: Text describing the specific rule that did not pass.
+RETURNS (OBJECT):
 
-### Checks
+isValid: Boolean indicating if the data object passed the checked.
+errs: (Object)
+  [NAME]: (Array of Objects)
+    rule: The specific rule that did not pass.
+    msg: Text describing the specific rule that did not pass.
+```
+
+---
+
+
+## CHECKS
 
 * **required**: passes if the value is not empty.
 * **default[STR]**: passes if the value is not equal to the default specified value.
@@ -104,44 +91,14 @@ Check data against specified rules.
 ---
 
 
-Backbone Binding (Coming Soon)
-------------------------------
+## BINDINGS
 
-### Example Usage
-
-```
-NA
-```
+* [bb-customs.js](http://github.com/firstopinion/bb-customs.js) 
 
 ---
 
 
-JQuery Binding (Coming Soon)
-----------------------------
-
-### Example Usage
-
-```
-NA
-```
-
----
-
-
-Standalone Binding (Coming Soon)
-------------------------------
-
-### Example Usage
-
-```
-NA
-```
-
----
-
-
-Test
-----
+## TEST
 Run on sacuelabs against the following browsers:
 
 [![Selenium Test Status](https://saucelabs.com/browser-matrix/fo-customs.svg)](https://saucelabs.com/u/fo-customs)
@@ -170,18 +127,7 @@ Travis will run sauce labs test on push.
 ---
 
 
-Todos
------
-
-* backbone binding
-* standalone binding
-* jquery binding
-
----
-
-
-License
--------
+## LICENSE
 
 The MIT License (MIT) Copyright (c) 2013 First Opinion
 

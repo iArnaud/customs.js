@@ -25,8 +25,8 @@ return {
 
     // Loop over each data key
     for (var key in data) {
-      if (rules[key]) {
-        var keyErrs = this._checkKey(data[key], rules[key]);
+      if (rules && rules[key]) {
+        var keyErrs = this._checkKey(key, data[key], rules[key]);
         if (keyErrs.length) { result.errs[key] = keyErrs; }
       }
     }
@@ -44,7 +44,7 @@ return {
   //
   //
   //
-  _checkKey: function (val, rule) {
+  _checkKey: function (name, val, rule) {
     var ruleChecks = rule.split('|'),
         errs       = [];
 
@@ -57,7 +57,15 @@ return {
           result    = this._checkRule(val, ruleCheck.rule, ruleCheck.args);
 
       if (!result) {
-        errs.push({ rule: ruleCheck.rule, msg: checks[ruleCheck.rule].msg });
+        // Add rules to args for formatting
+        var formatArgs = [name];
+        if (typeof ruleCheck.args !== 'undefined') { formatArgs = formatArgs.concat(ruleCheck.args); }
+
+        // Create formatted message
+        var msg = utils.formatStr(checks[ruleCheck.rule].msg, formatArgs);
+
+        // Push to errs
+        errs.push({ rule: ruleCheck.rule, msg: msg});
       }
     }
 

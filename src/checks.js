@@ -4,7 +4,9 @@
  * Copyright (c) 2014
  */
 
-define(function () {
+define([
+  'utils'
+], function (utils) {
 
 
 // ----------------------------------------------------------------------------
@@ -36,9 +38,11 @@ var checks = {};
 // returns false if the value is empty.
 //
 checks['required'] = {
-  'msg': 'The %s field is required.',
+  'msg': 'The {0} field is required.',
   'check': function (val) {
-    return (val !== null && val !== '');
+    return (val !== null && typeof val == 'object')
+      ? utils.isEmpty(val)
+      : (val !== null && val !== '');
   }
 };
 
@@ -47,7 +51,7 @@ checks['required'] = {
 // returns false if the value is equal to the specified value
 //
 checks['default'] = {
-  'msg': 'The %s field is still set to default, please change.',
+  'msg': 'The {0} field is still set to default, please change.',
   'check': function (val, name) {
     return val !== name;
   }
@@ -58,7 +62,7 @@ checks['default'] = {
 // returns false if the value is not a valid email address.
 //
 checks['email'] = {
-  'msg': 'The %s field must contain a valid email address.',
+  'msg': 'The {0} field must contain a valid email address.',
   'check': function (val) {
     return regExs['email'].test(val);
   }
@@ -70,7 +74,7 @@ checks['email'] = {
 // a valid email.
 //
 checks['emails'] = {
-  'msg': 'The %s field must contain all valid email addresses.',
+  'msg': 'The {0} field must contain all valid email addresses.',
   'check': function (val) {
     // Split emails
     var result = val.split(",");
@@ -88,7 +92,7 @@ checks['emails'] = {
 // returns false if the value is shorter than the parameter.
 //
 checks['minLength'] = {
-  'msg': 'The %s field must be at least %s characters in length.',
+  'msg': 'The {0} field must be at least {1} characters in length.',
   'check': function (val, length) {
     return (!regExs['numeric'].test(length))
       ? false
@@ -101,7 +105,7 @@ checks['minLength'] = {
 // returns false if the value is longer than the parameter.
 //
 checks['maxLength'] = {
-  'msg': 'The %s field must not exceed %s characters in length.',
+  'msg': 'The {0} field must not exceed {1} characters in length.',
   'check': function (val, length) {
     return (!regExs['numeric'].test(length))
       ? false
@@ -114,7 +118,7 @@ checks['maxLength'] = {
 // returns false if the value length is not exactly the parameter.
 //
 checks['exactLength'] = {
-  'msg': 'The %s field must be exactly %s characters in length.',
+  'msg': 'The {0} field must be exactly {1} characters in length.',
   'check': function (val, length) {
     return (!regExs['numeric'].test(length))
       ? false
@@ -128,7 +132,7 @@ checks['exactLength'] = {
 // after using parseFloat.
 //
 checks['greaterThan'] = {
-  'msg': 'The %s field must contain a number greater than %s.',
+  'msg': 'The {0} field must contain a number greater than {1}.',
   'check': function (val, param) {
     return (!regExs['decimal'].test(val))
       ? false
@@ -142,7 +146,7 @@ checks['greaterThan'] = {
 // after using parseFloat.
 //
 checks['lessThan'] = {
-  'msg': 'The %s field must contain a number less than %s.',
+  'msg': 'The {0} field must contain a number less than {1}.',
   'check': function (val, param) {
     return (!regExs['decimal'].test(val))
       ? false
@@ -156,7 +160,7 @@ checks['lessThan'] = {
 // alphabetical characters.
 //
 checks['alpha'] = {
-  'msg': 'The %s field must only contain alphabetical characters.',
+  'msg': 'The {0} field must only contain alphabetical characters.',
   'check': function (val) {
     return regExs['alpha'].test(val);
   }
@@ -168,7 +172,7 @@ checks['alpha'] = {
 // alpha-numeric characters.
 //
 checks['alphaNumeric'] = {
-  'msg': 'The %s field must only contain alpha-numeric characters.',
+  'msg': 'The {0} field must only contain alpha-numeric characters.',
   'check': function (val) {
     return regExs['alphaNumeric'].test(val);
   }
@@ -180,7 +184,7 @@ checks['alphaNumeric'] = {
 // alphanumeric characters, underscores, or dashes.
 //
 checks['alphaDash'] = {
-  'msg': 'The %s field must only contain alpha-numeric characters, underscores, and dashes.',
+  'msg': 'The {0} field must only contain alpha-numeric characters, underscores, and dashes.',
   'check': function (val) {
     return regExs['alphaDash'].test(val);
   }
@@ -192,7 +196,7 @@ checks['alphaDash'] = {
 // numeric characters.
 //
 checks['numeric'] = {
-  'msg': 'The %s field must contain only numbers.',
+  'msg': 'The {0} field must contain only numbers.',
   'check': function (val) {
     return regExs['numeric'].test(val);
   }
@@ -203,7 +207,7 @@ checks['numeric'] = {
 // returns false if the value contains anything other than an integer.
 //
 checks['integer'] = {
-  'msg': 'The %s field must contain an integer.',
+  'msg': 'The {0} field must contain an integer.',
   'check': function (val) {
     return regExs['integer'].test(val);
   }
@@ -214,7 +218,7 @@ checks['integer'] = {
 // returns false if the value contains anything other than a decimal.
 //
 checks['decimal'] = {
-  'msg': 'The %s field must contain a decimal number.',
+  'msg': 'The {0} field must contain a decimal number.',
   'check': function (val) {
     return regExs['decimal'].test(val);
   }
@@ -226,7 +230,7 @@ checks['decimal'] = {
 // natural number: 0, 1, 2, 3, etc.
 //
 checks['natural'] = {
-  'msg': 'The %s field must contain only positive numbers.',
+  'msg': 'The {0} field must contain only positive numbers.',
   'check': function (val) {
     return regExs['natural'].test(val);
   }
@@ -238,7 +242,7 @@ checks['natural'] = {
 // natural number, but not zero: 1, 2, 3, etc.
 //
 checks['naturalNoZero'] = {
-  'msg': 'The %s field must contain a number greater than zero.',
+  'msg': 'The {0} field must contain a number greater than zero.',
   'check': function (val) {
     return regExs['naturalNoZero'].test(val);
   }
@@ -249,7 +253,7 @@ checks['naturalNoZero'] = {
 // returns false if the supplied string is not a valid url
 //
 checks['url'] = {
-  'msg': 'The %s field must contain a valid URL.',
+  'msg': 'The {0} field must contain a valid URL.',
   'check': function (val) {
     return (regExs['url'].test(val));
   }
@@ -260,7 +264,7 @@ checks['url'] = {
 // returns false if the supplied string is not a valid credit card
 //
 checks['creditCard'] = {
-  'msg': 'The %s field must contain a valid credit card number.',
+  'msg': 'The {0} field must contain a valid credit card number.',
   'check': function (val) {
     // accept only digits, dashes or spaces
     if (!regExs['numericDash'].test(val)) { return false; }
@@ -289,7 +293,7 @@ checks['creditCard'] = {
 // separated list in the paramter
 //
 checks['fileType'] = {
-  'msg': 'The %s field must contain only %s files.',
+  'msg': 'The {0} field must contain only {1} files.',
   'check': function (val, type) {
     // Get ext of val
     var ext = val.substr((val.lastIndexOf('.') + 1));

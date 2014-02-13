@@ -59,16 +59,16 @@ var testCheckRule = function () {
 //
 var testCheckKey = function () {
   it('Should return true if val is empty and not required', function () {
-    assert.isTrue(customs._checkKey('', 'minLength[3]'));
+    assert.isTrue(customs._checkKey('name', '', 'minLength[3]'));
   });
   it('Should return array of error objects', function () {
-    assert.deepEqual(customs._checkKey('val-u', 'maxLength[4]|alphaNumeric'), [
-      { rule: 'maxLength', msg: 'The %s field must not exceed %s characters in length.' },
-      { rule: 'alphaNumeric', msg: 'The %s field must only contain alpha-numeric characters.' }
+    assert.deepEqual(customs._checkKey('name', 'val-u', 'maxLength[4]|alphaNumeric'), [
+      { rule: 'maxLength', msg: 'The name field must not exceed 4 characters in length.' },
+      { rule: 'alphaNumeric', msg: 'The name field must only contain alpha-numeric characters.' }
     ]);
   });
   it('Should return empty array if no errors', function () {
-    assert.deepEqual(customs._checkKey('valu', 'maxLength[4]|alphaNumeric'), []);
+    assert.deepEqual(customs._checkKey('name', 'valu', 'maxLength[4]|alphaNumeric'), []);
   });
 };
 
@@ -90,11 +90,11 @@ var testCheck = function () {
     assert.isFalse(validation.isValid);
     assert.deepEqual(validation.errs, {
       'name': [
-        { rule: 'required', msg: 'The %s field is required.' },
-        { rule: 'minLength', msg: 'The %s field must be at least %s characters in length.' }
+        { rule: 'required', msg: 'The name field is required.' },
+        { rule: 'minLength', msg: 'The name field must be at least 2 characters in length.' }
       ],
       'age': [
-        { rule: 'numeric', msg: 'The %s field must contain only numbers.' }
+        { rule: 'numeric', msg: 'The age field must contain only numbers.' }
       ]
     });
   });
