@@ -42,25 +42,25 @@ var checks = function (utils) {
             };
         var checks = {};
         checks['required'] = {
-            'msg': 'The %s field is required.',
+            'msg': 'The {0} field is required.',
             'check': function (val) {
                 return val !== null && typeof val == 'object' ? utils.isEmpty(val) : val !== null && val !== '';
             }
         };
         checks['default'] = {
-            'msg': 'The %s field is still set to default, please change.',
+            'msg': 'The {0} field is still set to default, please change.',
             'check': function (val, name) {
                 return val !== name;
             }
         };
         checks['email'] = {
-            'msg': 'The %s field must contain a valid email address.',
+            'msg': 'The {0} field must contain a valid email address.',
             'check': function (val) {
                 return regExs['email'].test(val);
             }
         };
         checks['emails'] = {
-            'msg': 'The %s field must contain all valid email addresses.',
+            'msg': 'The {0} field must contain all valid email addresses.',
             'check': function (val) {
                 var result = val.split(',');
                 for (var i = 0; i < result.length; i++) {
@@ -73,91 +73,91 @@ var checks = function (utils) {
             }
         };
         checks['minLength'] = {
-            'msg': 'The %s field must be at least %s characters in length.',
+            'msg': 'The {0} field must be at least {1} characters in length.',
             'check': function (val, length) {
                 return !regExs['numeric'].test(length) ? false : val.length >= parseInt(length, 10);
             }
         };
         checks['maxLength'] = {
-            'msg': 'The %s field must not exceed %s characters in length.',
+            'msg': 'The {0} field must not exceed {1} characters in length.',
             'check': function (val, length) {
                 return !regExs['numeric'].test(length) ? false : val.length <= parseInt(length, 10);
             }
         };
         checks['exactLength'] = {
-            'msg': 'The %s field must be exactly %s characters in length.',
+            'msg': 'The {0} field must be exactly {1} characters in length.',
             'check': function (val, length) {
                 return !regExs['numeric'].test(length) ? false : val.length === parseInt(length, 10);
             }
         };
         checks['greaterThan'] = {
-            'msg': 'The %s field must contain a number greater than %s.',
+            'msg': 'The {0} field must contain a number greater than {1}.',
             'check': function (val, param) {
                 return !regExs['decimal'].test(val) ? false : parseFloat(val) > parseFloat(param);
             }
         };
         checks['lessThan'] = {
-            'msg': 'The %s field must contain a number less than %s.',
+            'msg': 'The {0} field must contain a number less than {1}.',
             'check': function (val, param) {
                 return !regExs['decimal'].test(val) ? false : parseFloat(val) < parseFloat(param);
             }
         };
         checks['alpha'] = {
-            'msg': 'The %s field must only contain alphabetical characters.',
+            'msg': 'The {0} field must only contain alphabetical characters.',
             'check': function (val) {
                 return regExs['alpha'].test(val);
             }
         };
         checks['alphaNumeric'] = {
-            'msg': 'The %s field must only contain alpha-numeric characters.',
+            'msg': 'The {0} field must only contain alpha-numeric characters.',
             'check': function (val) {
                 return regExs['alphaNumeric'].test(val);
             }
         };
         checks['alphaDash'] = {
-            'msg': 'The %s field must only contain alpha-numeric characters, underscores, and dashes.',
+            'msg': 'The {0} field must only contain alpha-numeric characters, underscores, and dashes.',
             'check': function (val) {
                 return regExs['alphaDash'].test(val);
             }
         };
         checks['numeric'] = {
-            'msg': 'The %s field must contain only numbers.',
+            'msg': 'The {0} field must contain only numbers.',
             'check': function (val) {
                 return regExs['numeric'].test(val);
             }
         };
         checks['integer'] = {
-            'msg': 'The %s field must contain an integer.',
+            'msg': 'The {0} field must contain an integer.',
             'check': function (val) {
                 return regExs['integer'].test(val);
             }
         };
         checks['decimal'] = {
-            'msg': 'The %s field must contain a decimal number.',
+            'msg': 'The {0} field must contain a decimal number.',
             'check': function (val) {
                 return regExs['decimal'].test(val);
             }
         };
         checks['natural'] = {
-            'msg': 'The %s field must contain only positive numbers.',
+            'msg': 'The {0} field must contain only positive numbers.',
             'check': function (val) {
                 return regExs['natural'].test(val);
             }
         };
         checks['naturalNoZero'] = {
-            'msg': 'The %s field must contain a number greater than zero.',
+            'msg': 'The {0} field must contain a number greater than zero.',
             'check': function (val) {
                 return regExs['naturalNoZero'].test(val);
             }
         };
         checks['url'] = {
-            'msg': 'The %s field must contain a valid URL.',
+            'msg': 'The {0} field must contain a valid URL.',
             'check': function (val) {
                 return regExs['url'].test(val);
             }
         };
         checks['creditCard'] = {
-            'msg': 'The %s field must contain a valid credit card number.',
+            'msg': 'The {0} field must contain a valid credit card number.',
             'check': function (val) {
                 if (!regExs['numericDash'].test(val)) {
                     return false;
@@ -196,7 +196,7 @@ var checks = function (utils) {
             }
         };
         checks['fileType'] = {
-            'msg': 'The %s field must contain only %s files.',
+            'msg': 'The {0} field must contain only {1} files.',
             'check': function (val, type) {
                 var ext = val.substr(val.lastIndexOf('.') + 1);
                 var types = type.split(',');
@@ -221,7 +221,7 @@ var customs = function (checks, utils) {
                     };
                 for (var key in data) {
                     if (rules && rules[key]) {
-                        var keyErrs = this._checkKey(data[key], rules[key]);
+                        var keyErrs = this._checkKey(key, data[key], rules[key]);
                         if (keyErrs.length) {
                             result.errs[key] = keyErrs;
                         }
@@ -233,7 +233,7 @@ var customs = function (checks, utils) {
                 }
                 return result;
             },
-            _checkKey: function (val, rule) {
+            _checkKey: function (name, val, rule) {
                 var ruleChecks = rule.split('|'), errs = [];
                 if (rule.indexOf('required') == -1 && val === '') {
                     return true;
@@ -241,9 +241,14 @@ var customs = function (checks, utils) {
                 for (var i = 0, l = ruleChecks.length; i < l; i++) {
                     var ruleCheck = this._getRuleCheckParts(ruleChecks[i]), result = this._checkRule(val, ruleCheck.rule, ruleCheck.args);
                     if (!result) {
+                        var formatArgs = [name];
+                        if (typeof ruleCheck.args !== 'undefined') {
+                            formatArgs = formatArgs.concat(ruleCheck.args);
+                        }
+                        var msg = utils.formatStr(checks[ruleCheck.rule].msg, formatArgs);
                         errs.push({
                             rule: ruleCheck.rule,
-                            msg: checks[ruleCheck.rule].msg
+                            msg: msg
                         });
                     }
                 }
