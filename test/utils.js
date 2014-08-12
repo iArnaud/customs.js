@@ -1,42 +1,54 @@
-/*
- * test/utils.js:
- *
- * (C) 2014 First Opinion
- * MIT LICENCE
- *
- */ 
+/*!
+ * test/utils.js
+ * 
+ * Copyright (c) 2014
+ */
 
 define([
   'proclaim',
-  'utils',
-], function (assert, utils) {
+  'sinon',
+  'customs/utils'
+], function (assert, sinon, _) {
 
 
-//
-// 
-//
-var testIsEmpty = function () {
-  it('Should return false if object has a property', function () {
-    assert.isFalse(utils.isEmpty({ 'prop': 'val' }));
+// ----------------------------------------------------------------------------
+// Test
+// ----------------------------------------------------------------------------
+
+describe('utils.js', function () {
+
+  // --------------------------------------------------------------------------
+  // isEmpty
+  // --------------------------------------------------------------------------
+
+  describe('isEmpty', function () {
+
+    it('Should return false if object has a property', function () {
+      assert.isFalse(_.isEmpty({ 'prop': 'val' }));
+    });
+
+    it('Should return true if object has no properties', function () {
+      assert.isTrue(_.isEmpty({}));
+    });
+
   });
-  it('Should return true if object has no properties', function () {
-    assert.isTrue(utils.isEmpty({}));
-  });
-};
 
-//
-// 
-//
-var testFormatStr = function () {
-  it('Should replace bracketed num with corresponding array index', function () {
-    assert.equal(utils.formatStr('| {0} | {1} | {2} |', ['1', '2', '3']), '| 1 | 2 | 3 |');
-  });
-};
 
-// Test please
-describe('utils', function () {
-  describe('isEmpty', testIsEmpty);
-  describe('formatStr', testFormatStr);
+  // --------------------------------------------------------------------------
+  // tmpl
+  // --------------------------------------------------------------------------
+
+  describe('tmpl', function () {
+
+    it('Should replace bracketed num with corresponding array index', function () {
+      var str = '| {0} | {1} | {2} |';
+      var data = ['1', '2', '3'];
+
+      assert.equal(_.tmpl(str, data), '| 1 | 2 | 3 |');
+    });
+
+  });
+
 });
 
 

@@ -1,117 +1,186 @@
-/*
- * test/customs.js:
- *
- * (C) 2014 First Opinion
- * MIT LICENCE
- *
- */ 
+/*!
+ * test/customs.js
+ * 
+ * Copyright (c) 2014
+ */
 
 define([
   'proclaim',
-  'customs',
-], function (assert, customs) {
+  'sinon',
+  'customs/exam',
+  'customs/customs'
+], function (assert, sinon, Exam, Customs) {
 
 
-//
-// 
-//
-var testChecks = function () {
-  it('Should expose checks methods', function () {
-    assert.isObject(customs.checks);
-  });
-};
+// ----------------------------------------------------------------------------
+// Test
+// ----------------------------------------------------------------------------
 
-//
-// 
-//
-var testGetRuleCheckParts = function () {
-  it('Should return object with rule and args property', function () {
-  	var rule = customs._getRuleCheckParts('rule[args]');
-    assert.isObject(rule);
-    assert.equal(rule.rule, 'rule');
-    assert.equal(rule.args, 'args');
-  });
-  it('Should not return args prop if no args passed', function () {
-    var rule = customs._getRuleCheckParts('rule');
-    assert.isUndefined(rule.args);
-  });
-};
+describe('customs.js', function () {
 
-//
-// 
-//
-var testCheckRule = function () {
-  it('Throw error if check type does not exist', function () {
-    assert.throws(function () {
-      customs._checkRule('fake', 'noExist');
-    }, 'There is no check defined by the name: noExist');
-  });
-  it('Should return true if check passes', function () {
-    assert.isTrue(customs._checkRule('true', 'exactLength', '4'));
-  });
-  it('Should return false if check fails', function () {
-    assert.isFalse(customs._checkRule('false', 'exactLength', '4'));
-  });
-};
+  // --------------------------------------------------------------------------
+  // constructor
+  // --------------------------------------------------------------------------
 
-//
-// 
-//
-var testCheckKey = function () {
-  it('Should return true if val is empty and not required', function () {
-    assert.isTrue(customs._checkKey('name', '', 'minLength[3]'));
-  });
-  it('Should return array of error objects', function () {
-    assert.deepEqual(customs._checkKey('name', 'val-u', 'maxLength[4]|alphaNumeric'), [
-      { rule: 'maxLength', msg: 'The name field must not exceed 4 characters in length.' },
-      { rule: 'alphaNumeric', msg: 'The name field must only contain alpha-numeric characters.' }
-    ]);
-  });
-  it('Should return empty array if no errors', function () {
-    assert.deepEqual(customs._checkKey('name', 'valu', 'maxLength[4]|alphaNumeric'), []);
-  });
-};
+  describe('constructor', function () {
+    beforeEach(function () {
+      this.buildStub = sinon.stub(Customs.prototype, 'build');
+      this.buildStub.returns('text');
 
-//
-// 
-//
-var testCheck = function () {
-  it('Should return object with isValid and errs prop on err', function () {
-    var validation = customs.check({
-      'name': '',
-      'email': 'test@email.com',
-      'age': 'fail'
-    }, {
-      'name': 'required|minLength[2]',
-      'email': 'required|email',
-      'age': 'numeric'
+      this.customs = new Customs({});
     });
-    assert.isObject(validation);
-    assert.isFalse(validation.isValid);
-    assert.deepEqual(validation.errs, {
-      'name': [
-        { rule: 'required', msg: 'The name field is required.' },
-        { rule: 'minLength', msg: 'The name field must be at least 2 characters in length.' }
-      ],
-      'age': [
-        { rule: 'numeric', msg: 'The age field must contain only numbers.' }
-      ]
-    });
-  });
-  it('Should return object with isValid true on successful validation', function () {
-    var validation = customs.check({ 'name': 'true' }, { 'name': 'required' });
-    assert.isObject(validation);
-    assert.isTrue(validation.isValid);
-  });
-};
 
-// Test please
-describe('customs', function () {
-  describe('checks', testChecks);
-  describe('_getRuleCheckParts', testGetRuleCheckParts);
-  describe('_checkRule', testCheckRule);
-  describe('_checkKey', testCheckKey);
-  describe('check', testCheck);
+    afterEach(function () {
+      this.buildStub.restore();
+    });
+
+    it('Should add rules to instance as returned value of build method.', function () {
+
+
+      assert.equal(this.customs.rules, 'text');
+    });
+
+  });
+
+
+  // --------------------------------------------------------------------------
+  // build
+  // --------------------------------------------------------------------------
+
+  describe('build', function () {
+
+    beforeEach(function () {
+      this.buildStub = sinon.stub(Customs.prototype, 'build');
+      this.buildRulesStub = sinon.stub(Customs.prototype, 'buildRules');
+      this.buildRulesStub.onFirstCall().returns('1');
+      this.buildRulesStub.onSecondCall().returns('2');
+
+      this.customs = new Customs();
+    });
+
+    afterEach(function () {
+      this.buildRulesStub.restore();
+    });
+
+    it('Should call buildRules for each definition passed.', function () {
+      this.buildStub.restore();
+
+      this.customs.build({ '1': true, '2': true });
+
+      assert.ok(this.buildRulesStub.calledTwice);
+    });
+
+    it('Should return formatted definitions object.', function () {
+      this.buildStub.restore();
+
+      var formatted = this.customs.build({ '1': true, '2': true });
+
+      assert.deepEqual(formatted, {
+        1: '1',
+        2: '2'
+      });
+    });
+
+  });
+
+
+  // --------------------------------------------------------------------------
+  // buildRules
+  // --------------------------------------------------------------------------
+
+  describe('buildRules', function () {
+
+    beforeEach(function () {
+      this.buildStub = sinon.stub(Customs.prototype, 'build');
+      this.parseStub = sinon.stub(Customs.prototype, 'parseRule');
+      this.parseStub.onFirstCall().returns('1');
+      this.parseStub.onSecondCall().returns('2');
+      this.parseStub.onThirdCall().returns('3');
+
+      this.customs = new Customs();
+    });
+
+    afterEach(function () {
+      this.buildStub.restore();
+      this.parseStub.restore();
+    });
+
+    it('Should return array of results of parseRule.', function () {
+      var rules = this.customs.buildRules('required|numeric|maxLength[3]');
+      
+      assert.deepEqual(rules, ['1', '2', '3']);
+    });
+
+  });
+
+
+  // --------------------------------------------------------------------------
+  // parseRule
+  // --------------------------------------------------------------------------
+
+  describe('parseRule', function () {
+
+    beforeEach(function () {
+      this.buildStub = sinon.stub(Customs.prototype, 'build');
+      this.customs = new Customs();
+    });
+
+    afterEach(function () {
+      this.buildStub.restore();
+    });
+
+    it('Should return object with a name property.', function () {
+      var parsed = this.customs.parseRule('range');
+
+      assert.deepEqual(parsed, {
+        name: 'range'
+      });
+    });
+
+    it('Should return object with an args property.', function () {
+      var parsed = this.customs.parseRule('range[3]');
+
+      assert.deepEqual(parsed, {
+        name: 'range',
+        args: '3'
+      });
+    });
+
+  });
+
+
+  // --------------------------------------------------------------------------
+  // check
+  // --------------------------------------------------------------------------
+
+  describe('check', function () {
+
+    beforeEach(function () {
+      this.buildStub = sinon.stub(Customs.prototype, 'build');
+      this.examStub = sinon.stub(Exam.prototype, 'run', function () {
+        this.isValid = false;
+        this.errors = { 1: true };
+      });
+
+      this.customs = new Customs();
+    });
+
+    afterEach(function () {
+      this.buildStub.restore();
+      this.examStub.restore();
+    });
+
+    it('Should return results.', function () {
+      var result = this.customs.check({});
+
+      assert.deepEqual(result, {
+        isValid: false,
+        errors: { 1: true }
+      });
+    });
+
+  });
+
 });
 
 

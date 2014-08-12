@@ -4,9 +4,7 @@
  * Copyright (c) 2014
  */
 
-define([
-  'customs/exam'
-], function (Exam) {
+var Exam = require('customs/exam');
 
 
 // ----------------------------------------------------------------------------
@@ -117,7 +115,6 @@ Customs.prototype.check = function (data) {
 // expose
 // ----------------------------------------------------------------------------
 
-return Customs;
+module.exports = Customs;
 
 
-});

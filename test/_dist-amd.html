@@ -11,6 +11,7 @@
 
   <body>
     <!-- content -->
+    <div id="workboard"></div>
     <div id="mocha"></div>
 
     <!-- tests -->
@@ -18,10 +19,10 @@
     <script src="../node_modules/easy-amdtest/dist/easy-amdtest.js"></script>
     <script>
       var testSuite = new EasyAMDTest({
-        baseUrl: '../src',
+        baseUrl: '../dist',
         urlArgs: 'bust=' + (new Date()).getTime(),
         paths: {
-          'customs'  : '/src',
+          'customs'  : '/dist/amd',
           'mocha'    : '/node_modules/mocha/mocha',
           'proclaim' : '/node_modules/proclaim/lib/proclaim',
           'sinon'    : '/node_modules/sinon/pkg/sinon'
@@ -34,10 +35,7 @@
       }).run({
         name: 'mocha',
         tests: [
-          './utils.js',
-          './checks.js',
-          './exam.js',
-          './customs.js'
+          './_dist-amd.js'
         ]
       });
     </script>

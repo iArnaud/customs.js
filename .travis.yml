@@ -3,9 +3,7 @@ node_js:
 - 0.1
 before_script:
 - npm install -g grunt-cli
-- npm install -g bower
 - npm install --no-bin-links
-- bower install
 env:
   global:
   - secure: CNL+xtInMvMUR4YAX/IhpugChOlfbi5Ms8yTXVflGM1TvwSZe/eY0awGhxdH/dpjZMcTHcCjD6lG5utagJ84nSyXcQYkFxsbcWxmSolN6ik8oHAVBAkYLS3RlHyc3iQELJDMIxR7Kicl+7dv6vb71nbRkIIjAyB9advdQBUzdvk=

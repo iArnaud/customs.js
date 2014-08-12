@@ -4,9 +4,7 @@
  * Copyright (c) 2014
  */
 
-define([
-  'customs/utils'
-], function (_) {
+var _ = require('customs/utils');
 
 
 // ----------------------------------------------------------------------------
@@ -315,7 +313,6 @@ checks['fileType'] = {
 // Expose
 // ----------------------------------------------------------------------------
 
-return checks;
+module.exports = checks;
 
 
-});
