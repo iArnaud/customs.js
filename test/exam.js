@@ -90,7 +90,7 @@ describe('exam.js', function () {
     });
 
     it('Should skip if empty and not required.', function () {
-      this.exam.run({ 1: '', 2: 'value' }, {
+      this.exam.run({ 1: '', 2: '' }, {
         1: [ { name: 'numeric' } ],
         2: [ { name: 'required' } ]
       });
