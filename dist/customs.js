@@ -418,7 +418,7 @@ customsExam = function (_, checks) {
     var hasRules = rules[0];
     // If first rule is not required
     // and we have an empty value - continue
-    if (isEmpty && hasRules && rules[0].rule !== 'required') {
+    if (isEmpty && hasRules && rules[0].name !== 'required') {
       return true;
     }
     // Check each rule

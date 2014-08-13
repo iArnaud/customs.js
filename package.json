@@ -1,6 +1,6 @@
 {
   "name": "customs.js",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Flexible javascript validation.",
   "author": "Jarid Margolin <jarid@firstopinion.co>",
   "repository": {
