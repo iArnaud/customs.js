@@ -93,9 +93,9 @@ describe('customs.js', function () {
     beforeEach(function () {
       this.buildStub = sinon.stub(Customs.prototype, 'build');
       this.parseStub = sinon.stub(Customs.prototype, 'parseRule');
-      this.parseStub.onFirstCall().returns('1');
-      this.parseStub.onSecondCall().returns('2');
-      this.parseStub.onThirdCall().returns('3');
+      this.parseStub.onFirstCall().returns({ name: '1' });
+      this.parseStub.onSecondCall().returns({ name: '2' });
+      this.parseStub.onThirdCall().returns({ name: '3'});
 
       this.customs = new Customs();
     });
@@ -106,9 +106,25 @@ describe('customs.js', function () {
     });
 
     it('Should return array of results of parseRule.', function () {
-      var rules = this.customs.buildRules('required|numeric|maxLength[3]');
+      var rules = this.customs.buildRules('1|2|3');
       
-      assert.deepEqual(rules, ['1', '2', '3']);
+      assert.deepEqual(rules, [
+        { name: '1' },
+        { name: '2' },
+        { name: '3' }
+      ]);
+    });
+
+    it('Should add required to begining of array.', function () {
+      this.parseStub.onThirdCall().returns({ name: 'required' });
+      
+      var rules = this.customs.buildRules('1|2|required');
+
+      assert.deepEqual(rules, [
+        { name: 'required' },
+        { name: '1' },
+        { name: '2' }
+      ]);
     });
 
   });

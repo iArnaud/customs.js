@@ -67,7 +67,10 @@ Customs.prototype.buildRules = function (str) {
   var rules = [];
 
   for (var i = 0, l = parts.length; i < l; i++) {
-    rules.push(this.parseRule(parts[i]));
+    var rule = this.parseRule(parts[i]);
+    var method = (rule.name === 'required') ? 'unshift' : 'push';
+    
+    rules[method](rule);
   }
 
   return rules;
