@@ -1,22 +1,26 @@
-(function(root, factory) {
-    if(typeof exports === 'object') {
-        module.exports = factory();
-    }
-    else if(typeof define === 'function' && define.amd) {
-        define([], factory);
-    }
-    else {
-        root['Customs'] = factory();
-    }
-}(this, function() {
+(function (root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module.
+    define([], function () {
+      return (root.returnExportsGlobal = factory());
+    });
+  } else if (typeof exports === 'object') {
+    // Node. Does not work with strict CommonJS, but
+    // only CommonJS-like enviroments that support module.exports,
+    // like Node.
+    module.exports = factory();
+  } else {
+    root['Customs'] = factory();
+  }
+}(this, function () {
 
 /*!
  * utils.js
  * 
  * Copyright (c) 2014
  */
-var customsUtils, customsChecks, customsExam, customsCustoms, index;
-customsUtils = {
+var utils, customs, _checks_, _exam_;
+utils = {
   /**
    * Determine if an object is empty.
    *
@@ -65,10 +69,10 @@ customsUtils = {
  * 
  * Copyright (c) 2014
  */
-customsChecks = function (_) {
-  // ----------------------------------------------------------------------------
-  // Regular Expressions
-  // ----------------------------------------------------------------------------
+_checks_ = function (_) {
+  /* -----------------------------------------------------------------------------
+   * RegularExpressions
+   * ---------------------------------------------------------------------------*/
   var regExs = {
       numeric: /^[0-9]+$/,
       integer: /^\-?[0-9]+$/,
@@ -84,9 +88,9 @@ customsChecks = function (_) {
       numericDash: /^[\d\-\s]+$/,
       url: /^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i
     };
-  // ----------------------------------------------------------------------------
-  // Rules
-  // ----------------------------------------------------------------------------
+  /* -----------------------------------------------------------------------------
+   * Checks
+   * ---------------------------------------------------------------------------*/
   var checks = {};
   //
   // required
@@ -352,20 +356,20 @@ customsChecks = function (_) {
       return false;
     }
   };
-  // ----------------------------------------------------------------------------
-  // Expose
-  // ----------------------------------------------------------------------------
+  /* -----------------------------------------------------------------------------
+   * export
+   * ---------------------------------------------------------------------------*/
   return checks;
-}(customsUtils);
+}(utils);
 /*!
  * exam.js
  * 
  * Copyright (c) 2014
  */
-customsExam = function (_, checks) {
-  // ----------------------------------------------------------------------------
-  // Exam
-  // ----------------------------------------------------------------------------
+_exam_ = function (_, checks) {
+  /* -----------------------------------------------------------------------------
+   * Exam
+   * ---------------------------------------------------------------------------*/
   /**
    * Class to run validation checks and return
    * formatted results.
@@ -474,20 +478,20 @@ customsExam = function (_, checks) {
       msg: _.tmpl(msg, data)
     };
   };
-  // ----------------------------------------------------------------------------
-  // expose
-  // ----------------------------------------------------------------------------
+  /* -----------------------------------------------------------------------------
+   * export
+   * ---------------------------------------------------------------------------*/
   return Exam;
-}(customsUtils, customsChecks);
+}(utils, _checks_);
 /*!
  * customs.js
  * 
  * Copyright (c) 2014
  */
-customsCustoms = function (Exam) {
-  // ----------------------------------------------------------------------------
-  // Customs
-  // ----------------------------------------------------------------------------
+customs = function (Exam) {
+  /* -----------------------------------------------------------------------------
+   * Customs
+   * ---------------------------------------------------------------------------*/
   /**
    * Interface for valiating data against a set
    * of rules.
@@ -575,23 +579,13 @@ customsCustoms = function (Exam) {
       errors: exam.errors
     };
   };
-  // ----------------------------------------------------------------------------
-  // expose
-  // ----------------------------------------------------------------------------
+  /* -----------------------------------------------------------------------------
+   * export
+   * ---------------------------------------------------------------------------*/
   return Customs;
-}(customsExam);
-/*!
- * _index.js
- * 
- * Copyright (c) 2014
- */
-index = function (Customs) {
-  // ----------------------------------------------------------------------------
-  // expose
-  // ----------------------------------------------------------------------------
-  return Customs;
-}(customsCustoms);
+}(_exam_);
 
-return index;
+return customs;
+
 
 }));

@@ -1,5 +1,5 @@
 /*!
- * test/_dist-umd.js
+ * test/_amd.js
  * 
  * Copyright (c) 2014
  */
@@ -11,11 +11,11 @@ define([
 ], function (assert, sinon, Customs) {
 
 
-// ----------------------------------------------------------------------------
-// Test
-// ----------------------------------------------------------------------------
+/* -----------------------------------------------------------------------------
+ * test
+ * ---------------------------------------------------------------------------*/
 
-describe('umd - customs.js', function () {
+describe('amd - customs.js', function () {
 
   it('Should create a new instance.', function () {
     var customs = new Customs({});

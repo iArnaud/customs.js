@@ -1,0 +1,12 @@
+{
+  "name": "customs.js",
+  "version": "0.2.0",
+  "ignore": [
+    "**/.*",
+    "Gruntfile.js",
+    "src",
+    "docs",
+    "test",
+    "build"
+  ]
+}

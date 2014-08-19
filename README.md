@@ -1,5 +1,5 @@
 customs.js [![Build Status](https://travis-ci.org/firstopinion/customs.js.png)](https://travis-ci.org/firstopinion/customs.js)
-==========
+========================
 
 Flexible agnostic javascript validation with built in bindings (standalone, jquery, backbone).
 
@@ -24,7 +24,7 @@ npm install
 **Run/View**
 
 ```
-grunt test
+npm test
 ```
 
 
