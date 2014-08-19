@@ -2,7 +2,7 @@
   "name": "customs.js",
   "description": "Flexible javascript validation.",
   "author": "Jarid Margolin <jarid@firstopinion.co>",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "homepage": "https://github.com/jaridmargolin/customs.js",
   "repository": {
     "type": "git",
@@ -14,6 +14,7 @@
   "scripts": {
     "test": "grunt test"
   },
+  "main": "dist/common/customs.js",
   "devDependencies": {
     "easy-build": "~0.0.2",
     "proclaim": "~2.0.0",
