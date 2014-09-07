@@ -1,6 +1,9 @@
 {
   "name": "customs.js",
   "version": "0.2.1",
+  "dependencies": {
+    "assist.js": "~0.3.4"
+  },
   "ignore": [
     "**/.*",
     "Gruntfile.js",

@@ -15,6 +15,9 @@
     "test": "grunt test"
   },
   "main": "dist/common/customs.js",
+  "dependencies": {
+    "assist.js": "~0.3.4"
+  },
   "devDependencies": {
     "easy-build": "~0.0.2",
     "proclaim": "~2.0.0",

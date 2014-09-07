@@ -15,17 +15,28 @@
 }(this, function () {
 
 /*!
- * utils.js
+ * isArray.js
  * 
  * Copyright (c) 2014
  */
-var utils, customs, _checks_, _exam_;
-utils = {
+var assistIsArray, assistIsEmpty, assistTmpl, utils, customs, _checks_, _exam_;
+assistIsArray = function (value) {
+  return Object.prototype.toString.call(value) === '[object Array]';
+};
+/*!
+ * isEmpty.js
+ * 
+ * Copyright (c) 2014
+ */
+assistIsEmpty = function (isArray) {
+  /* -----------------------------------------------------------------------------
+   * isEmpty
+   * ---------------------------------------------------------------------------*/
   /**
-   * Determine if an object is empty.
+   * Determine if an object or array is empty.
    *
    * @example
-   * var isEmpty = isEmpty({});
+   * var empty = isEmpty({});
    * // true
    *
    * @public
@@ -33,10 +44,10 @@ utils = {
    * @param {object} obj - obj to run isEmpty test on
    * @reutns {boolean} - true if object is empty. false if not.
    */
-  isEmpty: function (obj) {
+  return function (obj) {
     // Array
-    if (Object.prototype.toString.call(obj) === '[object Array]') {
-      return obj.length > 0;
+    if (isArray(obj)) {
+      return obj.length === 0;
     }
     // Object
     for (var prop in obj) {
@@ -45,25 +56,32 @@ utils = {
       }
     }
     return true;
-  },
-  /**
-   * Micro template function.
-   *
-   * @example
-   * var msg = tmpl('{0}', ['msg']);
-   *
-   * @public
-   *
-   * @param {string} str - string to template.
-   * @param {array} data - array of values to template.
-   * @reutns {str} - error msg string.
-   */
-  tmpl: function (str, data) {
-    return str.replace(/{([^{}]*)}/g, function (a, b) {
-      return typeof data[b] === 'string' ? data[b] : a;
-    });
-  }
+  };
+}(assistIsArray);
+/*!
+ * tmpl.js
+ * 
+ * Copyright (c) 2014
+ */
+assistTmpl = function (str, data) {
+  return str.replace(/{([^{}]*)}/g, function (a, b) {
+    return typeof data[b] === 'string' ? data[b] : a;
+  });
 };
+/*!
+ * utils.js
+ * 
+ * Copyright (c) 2014
+ */
+utils = function (isEmpty, tmpl) {
+  /* -----------------------------------------------------------------------------
+   * utils
+   * ---------------------------------------------------------------------------*/
+  return {
+    isEmpty: isEmpty,
+    tmpl: tmpl
+  };
+}(assistIsEmpty, assistTmpl);
 /*!
  * checks.js
  * 
