@@ -2,7 +2,7 @@
   "name": "customs.js",
   "description": "Flexible javascript validation.",
   "author": "Jarid Margolin <jarid@firstopinion.co>",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "homepage": "https://github.com/jaridmargolin/customs.js",
   "repository": {
     "type": "git",
