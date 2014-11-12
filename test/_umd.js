@@ -6,9 +6,8 @@
 
 define([
   'proclaim',
-  'sinon',
   'customs/customs'
-], function (assert, sinon, Customs) {
+], function (assert, Customs) {
 
 
 /* -----------------------------------------------------------------------------

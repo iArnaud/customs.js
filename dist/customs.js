@@ -19,8 +19,8 @@
  * 
  * Copyright (c) 2014
  */
-var assistIsArray, assistIsEmpty, assistTmpl, utils, customs, _checks_, _exam_;
-assistIsArray = function (value) {
+var utlIsArray, utlIsEmpty, utlTmpl, utils, customs, _checks_, _exam_;
+utlIsArray = function (value) {
   return Object.prototype.toString.call(value) === '[object Array]';
 };
 /*!
@@ -28,7 +28,7 @@ assistIsArray = function (value) {
  * 
  * Copyright (c) 2014
  */
-assistIsEmpty = function (isArray) {
+utlIsEmpty = function (isArray) {
   /* -----------------------------------------------------------------------------
    * isEmpty
    * ---------------------------------------------------------------------------*/
@@ -57,13 +57,13 @@ assistIsEmpty = function (isArray) {
     }
     return true;
   };
-}(assistIsArray);
+}(utlIsArray);
 /*!
  * tmpl.js
  * 
  * Copyright (c) 2014
  */
-assistTmpl = function (str, data) {
+utlTmpl = function (str, data) {
   return str.replace(/{([^{}]*)}/g, function (a, b) {
     return typeof data[b] === 'string' ? data[b] : a;
   });
@@ -81,7 +81,7 @@ utils = function (isEmpty, tmpl) {
     isEmpty: isEmpty,
     tmpl: tmpl
   };
-}(assistIsEmpty, assistTmpl);
+}(utlIsEmpty, utlTmpl);
 /*!
  * checks.js
  * 
@@ -92,20 +92,20 @@ _checks_ = function (_) {
    * RegularExpressions
    * ---------------------------------------------------------------------------*/
   var regExs = {
-      numeric: /^[0-9]+$/,
-      integer: /^\-?[0-9]+$/,
-      decimal: /^\-?[0-9]*\.?[0-9]+$/,
-      email: /^[a-zA-Z0-9.!#$%&amp;'*+\-\/=?\^_`{|}~\-]+@[a-zA-Z0-9\-]+(?:\.[a-zA-Z0-9\-]+)*$/,
-      alpha: /^[a-z]+$/i,
-      alphaNumeric: /^[a-z0-9]+$/i,
-      alphaDash: /^[a-z0-9_\-]+$/i,
-      natural: /^[0-9]+$/i,
-      naturalNoZero: /^[1-9][0-9]*$/i,
-      ip: /^((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})$/i,
-      base64: /[^a-zA-Z0-9\/\+=]/i,
-      numericDash: /^[\d\-\s]+$/,
-      url: /^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i
-    };
+    numeric: /^[0-9]+$/,
+    integer: /^\-?[0-9]+$/,
+    decimal: /^\-?[0-9]*\.?[0-9]+$/,
+    email: /^[a-zA-Z0-9.!#$%&amp;'*+\-\/=?\^_`{|}~\-]+@[a-zA-Z0-9\-]+(?:\.[a-zA-Z0-9\-]+)*$/,
+    alpha: /^[a-z]+$/i,
+    alphaNumeric: /^[a-z0-9]+$/i,
+    alphaDash: /^[a-z0-9_\-]+$/i,
+    natural: /^[0-9]+$/i,
+    naturalNoZero: /^[1-9][0-9]*$/i,
+    ip: /^((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){3}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})$/i,
+    base64: /[^a-zA-Z0-9\/\+=]/i,
+    numericDash: /^[\d\-\s]+$/,
+    url: /^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i
+  };
   /* -----------------------------------------------------------------------------
    * Checks
    * ---------------------------------------------------------------------------*/

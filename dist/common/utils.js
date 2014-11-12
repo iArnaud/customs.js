@@ -4,8 +4,8 @@
  * Copyright (c) 2014
  */
 
-var isEmpty = require('assist/isEmpty');
-var tmpl = require('assist/tmpl');
+var isEmpty = require('utl.js/dist/common/isEmpty');
+var tmpl = require('utl.js/dist/common/tmpl');
 
 
 /* -----------------------------------------------------------------------------

@@ -5,8 +5,8 @@
  */
 
 define([
-  'assist/isEmpty',
-  'assist/tmpl'
+  'utl/isEmpty',
+  'utl/tmpl'
 ], function (isEmpty, tmpl) {
 
 

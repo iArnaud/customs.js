@@ -2,7 +2,7 @@
   "name": "customs.js",
   "version": "0.2.2",
   "dependencies": {
-    "assist.js": "~0.3.4"
+    "utl.js": "~0.1.0"
   },
   "ignore": [
     "**/.*",
