@@ -1,6 +1,6 @@
 {
   "name": "customs.js",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "dependencies": {
     "utl.js": "~0.1.0"
   },
